@@ -1,0 +1,28 @@
+{% extends "blog/basic.html "%}
+{% block title %}MyBlog{% endblock %}
+{% block body %}
+
+<div class="container">
+  <div class="row mb-2 mt-3">
+  {% if search %}
+  {% for p in result %}
+{% include "blog/posts.html" with i=p %}
+{% endfor %}
+{% else %}
+    
+    {% for p in posts %}
+{% include "blog/posts.html" with i=p %}
+{% endfor %}
+{% endif %}
+
+  
+</div></div>
+<center>
+{% if posts.has_previous %}
+<a href="?page={{posts.previous_page_number}}"><button class="btn btn-outline-primary my-2 my-sm-0 mx-2" type="submit"> << Previous</button></div></a>
+{% endif %}
+{% if posts.has_next %}
+<a href="?page={{posts.next_page_number}}"><button class="btn btn-outline-success my-2 my-sm-0 mx-2" type="submit">Next >></button></div></a>
+{% endif %}
+</center>
+    {% endblock %}

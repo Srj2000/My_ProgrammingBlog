@@ -1,0 +1,27 @@
+{% extends 'blog/basic.html' %}
+{% block title %}Contact Page-MyCart{% endblock %}
+{% block css%}
+
+.form{width:50vw;}
+{% endblock %}
+{% block body %}
+
+<div class="container  form">
+    <h1>Contact Us</h1>
+<form class="container" action="/contact/" method="post">
+    {% csrf_token%}
+  
+{% for fm in form.visible_fields %}
+<div class="mb-3">
+ {{fm.label_tag}}
+   
+  <br>
+  {{fm}}
+
+</div>
+{% endfor %}
+
+  <button type="submit" class="btn btn-success" id="contactsubmit">Submit</button>
+</form></div>
+
+{% endblock %}

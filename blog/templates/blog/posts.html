@@ -1,0 +1,19 @@
+<div class="col-md-6">
+  <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+    <div class="col p-4 d-flex flex-column position-static">
+      <strong class="d-inline-block mb-2 text-primary">{{i.p_title}}</strong>
+      <h3 class="mb-0">{{i.p_head1}}</h3>
+      <div class="mb-1 text-muted">{{i.p_date}}</div>
+      <p class="card-text mb-auto">{{i.p_chead1|slice:":100"}}....</p>
+      <a href="/aboutpost/{{i.p_id}}" class="stretched-link">Continue reading</a>
+    </div>
+    <div class="col-auto d-none d-lg-block">
+      <img src="/media/{{i.p_thumbnail}}" width="140" height="180">
+
+    </div>
+  </div>
+</div>
+{% if forloop.counter|divisibleby:2 and forloop.counter > 0 and not forloop.last %}
+</div>
+<div class="row mb-2 mt-3">
+  {% endif %}

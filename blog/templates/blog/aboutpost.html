@@ -1,0 +1,154 @@
+{% extends "blog/basic.html "%}
+{% block title%}Aboutpost-MyBlog{% endblock %}
+{% block css %}
+.svg{
+width:100%;
+}
+{%endblock%}
+{% block body %}
+{% load static %}
+<div class="row g-5 container">
+  <div class="col-md-8">
+    <h3 class="pb-4 mb-4 fst border-bottom">
+      From the Mars
+    </h3>
+
+    <article class="blog-post">
+      <h2 class="blog-post-title">{{posts.p_title}}</h2>
+      <p class="blog-post-meta">{{posts.p_date}} by <a href="#">{{posts.p_author}}</a></p>
+
+      <p>{{posts.p_body|linebreaks}}</p>
+      <hr>
+      <p>This is some additional paragraph placeholder content. It has been written to fill the available space and show
+        how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration
+        flowing, so be on the lookout for this exact same string of text.</p>
+
+
+
+      <h2>{{posts.p_head1}}</h2>
+      <p>{{posts.p_chead1|linebreaks}}</p>
+      <h3>{{posts.p_head2}}</h3>
+      <p>{{posts.p_chead2|linebreaks}}</p>
+
+
+    </article>
+  
+    <div class="comments">
+      <h2>Comments:</h2>
+      {% if user.is_authenticated %}
+
+      <div>
+
+        <label for="comment" class="form-label">Post Comment</label>
+        <form action="/postcom/" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="postsno" value="{{posts.p_id}}">
+          <input type="hidden" name="check" value="parent">
+          <div class="row">
+            <div class="col-md-9">
+              <input type="text" class="form-control" name="postcom" placeholder="Enter Comment">
+
+            </div>
+            <div class="col-md-3">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      {% else %}<h5>* Please Login For Comments</h5>
+      {% endif %}
+    </div>
+
+    {% for c,r in mydict.items %}
+    <div class="mt-4">
+      <div class="row">
+        <div class="col-md-1">
+          <img src="{% static 'blog/user.svg' %}" alt="" class="svg">
+          <!-- <button type="submit" class="btn-sm btn-primary mt-2 ">Reply</button> -->
+          {% if user.is_authenticated %}
+          <button class="btn-sm btn-primary" data-bs-toggle="collapse" href="#reply{{c.sno}}" role="button"
+            aria-expanded="false" aria-controls="collapseExample">
+            Reply</button>
+          {% endif %}
+        </div>
+
+
+        <div class="col-md-11">
+          <b>{{c.user}}</b> at {{c.timestamp}}
+          <p class="mx-4">{{c.postcomment}} </p>
+        </div>
+      </div>
+
+
+    </div>
+
+
+    <div class="collapse" id="reply{{c.sno}}">
+      <!-- <div class="card card-body"> -->
+      <!-- <label for="comment" class="form-label">Post Reply</label> -->
+      <form action="/postcom/" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="postsno" value="{{c.postsno}}">
+        <input type="hidden" name="comno" value="{{c.sno}}">
+        <input type="hidden" name="check" value="child">
+
+        <div class="row">
+          <div class="col-md-9">
+            <input type="text" class="form-control" name="postcom" placeholder="Enter Reply">
+
+          </div>
+          <div class="col-md-3">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </div>
+      </form>
+      <!-- </div> -->
+    </div>
+    {% if not r == "no" %}
+    {% for re in r %}
+    <div class="mx-5">
+      <div class="row">
+        <div class="col-md-1">
+          <img src="{% static 'blog/user.svg' %}" alt="" class="svg">
+          <!-- <button type="submit" class="btn-sm btn-primary mt-2 ">Reply</button> -->
+          <!-- <button class="btn-sm btn-primary" data-bs-toggle="collapse" href="#reply{{r.sno}}" role="button" aria-expanded="false" aria-controls="collapseExample">
+        Reply</button> -->
+        </div>
+
+
+        <div class="col-md-11">
+          <b>{{re.user}}</b> at {{re.timestamp}}
+          <p class="mx-4">{{re.postcomment}} </p>
+        </div>
+      </div>
+
+
+    </div>{% endfor %}
+    {% endif %}
+    {% endfor %}
+
+  </div>
+  <!-- <div class="fb-comments" data-href="http://127.0.0.1:8000/blog/aboutpost/{{posts.p_id}}/" data-width="" data-numposts="3"></div></div> -->
+  <!--    <div class="fb-comments" data-href="https://developers.facebook.com/docs/plugins/comments#configurator" data-width="" data-numposts="3"></div></div>-->
+
+  <div class="col-md-4">
+    <div class="position-sticky" style="top: 2rem;">
+      <div class="p-4 mb-3 bg-light rounded">
+        <h4 class="fst-italic">About</h4>
+        <p class="mb-0">About My Post</p>
+      </div>
+
+
+      <div class="p-4">
+        <h4 class="fst-italic">Elsewhere</h4>
+        <ol class="list-unstyled">
+          <li><a href="#">GitHub</a></li>
+          <li><a href="#">Twitter</a></li>
+          <li><a href="#">Facebook</a></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>{% endblock %}
+<!-- {% block script %} <script async defer crossorigin="anonymous" src="https://connect.facebook.net/hi_IN/sdk.js#xfbml=1&version=v11.0" nonce="0hlC2qrm"></script>{% endblock %} -->

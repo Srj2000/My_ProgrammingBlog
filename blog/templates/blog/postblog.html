@@ -1,0 +1,32 @@
+{% extends 'blog/basic.html' %}
+{% block title %}Post-MyCart{% endblock %}
+{% block css%}
+.body, .head1, .head2{
+    height:133px;
+    
+}
+.form{width:80vw;}
+
+{% endblock %}
+{% block body %}
+<div class="container form ">
+<div class="container d-flex ">
+    <h1>Post Here</h1> </div>
+<form   action="/postblog/" method="post" enctype="multipart/form-data">
+    {% csrf_token%}
+  
+{% for fm in form.visible_fields %}
+<div class="mb-3">
+ {{fm.label}}{{fm.errors}}
+   
+  <br>
+  {{fm}}
+
+</div>
+{% endfor %}
+
+
+  <button type="submit" class="btn btn-success" id="postsubmit">Submit</button>
+</form>
+</div>
+{% endblock %}
